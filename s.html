@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Colorful Typing for Kids</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #282c34;
+            overflow: hidden;
+            font-family: 'Comic Sans MS', 'Chalkboard SE', sans-serif;
+            user-select: none;
+        }
+
+        .instruction {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 2.5rem;
+            color: #ffffff;
+            text-align: center;
+            pointer-events: none;
+            transition: opacity 0.5s;
+            opacity: 0.5;
+        }
+
+        .pop-letter {
+            position: absolute;
+            font-size: 10rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            pointer-events: none;
+            animation: popAndFade 1.5s ease-out forwards;
+            text-shadow: 4px 4px 0px #000000;
+        }
+
+        @keyframes popAndFade {
+            0% {
+                transform: scale(0.1) rotate(-20deg);
+                opacity: 1;
+            }
+            40% {
+                transform: scale(1.2) rotate(10deg);
+                opacity: 1;
+            }
+            100% {
+                transform: scale(1.5) rotate(20deg);
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="instruction" class="instruction">
+        Press any key on the keyboard!
+    </div>
+
+    <script>
+        const colors = [
+            '#FF355E', '#FD5B78', '#FF6037', '#FF9966', '#FFCC33',
+            '#FFFF66', '#CCFF00', '#66FF66', '#50BFE6', '#FF00CC'
+        ];
+
+        const instruction = document.getElementById('instruction');
+
+        document.addEventListener('keydown', function(event) {
+            if (instruction.style.opacity !== '0') {
+                instruction.style.opacity = '0';
+            }
+
+            if (event.key.length !== 1 && event.key !== ' ') return;
+
+            const letter = event.key === ' ' ? '⭐' : event.key;
+            const el = document.createElement('div');
+            
+            el.className = 'pop-letter';
+            el.innerText = letter;
+
+            const randomColor = colors[Math.floor(Math.random() * colors.length)];
+            el.style.color = randomColor;
+
+            const x = Math.random() * (window.innerWidth - 150);
+            const y = Math.random() * (window.innerHeight - 150);
+            el.style.left = `${x}px`;
+            el.style.top = `${y}px`;
+
+            document.body.appendChild(el);
+
+            setTimeout(() => {
+                el.remove();
+            }, 1500); 
+        });
+    </script>
+</body>
+</html>
